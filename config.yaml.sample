@@ -1,0 +1,11 @@
+# Myanimelist credentials
+myanimelist:
+  login: your_login
+  password: your_password
+  apikey: your-api
+
+# Directory to download manga scans
+downloadDir: ./mangas/
+
+# Yaml file store status
+yaml: listing/mangas.yaml
