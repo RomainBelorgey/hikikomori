@@ -9,14 +9,15 @@ def download_image(element, name):
     urllib.urlretrieve(src, name)
 
 
-#url = sys.argv[1]
-firstImage = sys.argv[1]
-directory = sys.argv[2]
+# Get args
+url = sys.argv[1]
+firstImage = sys.argv[2]
+directory = sys.argv[3]
+
 driver = webdriver.Firefox()
 driver.implicitly_wait(30)
 
-#driver.get("http://cartoon.media.daum.net/webtoon/view/BREAKER")
-driver.get("http://cartoon.media.daum.net/webtoon/view/asura")
+driver.get(url)
 downloads = driver.find_elements_by_xpath("//a[@class='link_wt']")
 
 href = []

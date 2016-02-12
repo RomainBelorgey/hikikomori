@@ -25,6 +25,8 @@ type Detail struct {
 	Name                  string `json:"name"`
 	Dir                   string `json:"dir, omitempty"`
 	Url                   string `json:"url, omitempty"`
+	RawUrl                string `json:"rawurl, omitempty"`
+	Reading               string `json:"reading, omitempty"`
 	Lastchapterdownloaded int    `json:"lastchapterdownloaded"`
 	Lastchapterread       int    `json:"lastchapterread"`
 }
@@ -82,12 +84,18 @@ func main() {
 					mangaYaml.Dir = mangaName
 					mangaYaml.Lastchapterdownloaded = 0
 					mangaYaml.Url = ""
+					mangaYaml.RawUrl = ""
+					mangaYaml.Reading = ""
 
 					if ok {
 						yamlLastChapterDownloaded := mangas.Mangaseries[mangaIdString].Lastchapterdownloaded
 						mangaYaml.Lastchapterdownloaded = yamlLastChapterDownloaded
 						yamlUrl := mangas.Mangaseries[mangaIdString].Url
 						mangaYaml.Url = yamlUrl
+						yamlRawUrl := mangas.Mangaseries[mangaIdString].RawUrl
+						mangaYaml.RawUrl = yamlRawUrl
+						yamlReading := mangas.Mangaseries[mangaIdString].Reading
+						mangaYaml.Reading = yamlReading
 						yamlDir := mangas.Mangaseries[mangaIdString].Dir
 						if yamlDir != "" {
 							mangaYaml.Dir = yamlDir
@@ -183,6 +191,12 @@ func main() {
 					y, _ := yaml.JSONToYAML(b)
 					ioutil.WriteFile(viper.GetString("yaml"), y, 0777)
 					fmt.Println("Finish downloading " + mangaName)
+				}
+				if value.RawUrl != "" && value.Reading != "" {
+					cmd := exec.Command("python2", "download_raw.py", value.RawUrl, value.Reading, viper.GetString("downloadDir"))
+					if err := cmd.Start(); err != nil {
+						panic(err)
+					}
 				}
 			}
 		},
