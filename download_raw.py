@@ -15,7 +15,8 @@ directory = sys.argv[2]
 driver = webdriver.Firefox()
 driver.implicitly_wait(30)
 
-driver.get("http://cartoon.media.daum.net/webtoon/view/BREAKER")
+#driver.get("http://cartoon.media.daum.net/webtoon/view/BREAKER")
+driver.get("http://cartoon.media.daum.net/webtoon/view/asura")
 downloads = driver.find_elements_by_xpath("//a[@class='link_wt']")
 
 href = []
@@ -28,8 +29,8 @@ page = 1
 try:
     while True:
         page = page + 1
-        page = driver.find_element_by_xpath("//a[contains(text(),'" + page + "')]")
-        page.click()
+        element = driver.find_element_by_xpath("//a[contains(text(),'" + str(page) + "')]")
+        element.click()
         downloads = driver.find_elements_by_xpath("//a[@class='link_wt']")
         for d in downloads:
             href.append(d.get_attribute('href'))
